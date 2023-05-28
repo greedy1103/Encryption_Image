@@ -1,0 +1,58 @@
+If you are new to OpenCV, initialize in step 1.
+If you setup all OpenCV and want to create a new project, initialize in Step 4.
+
+Step 1: 
+- Download VS Community 2022 at "https://visualstudio.microsoft.com/downloads/". Download packages Desktop development with C++. Adjust locations of Visual Studio IDE and Download Cache.
+- Download the OpenCV 4.7.0 in Window version released at "https://opencv.org/releases/".
+- Download cmake-3.26.4-windows-x86_64.msi in binary distributions at "https://cmake.org/download/".
+- Run 2 files opencv-4.7.0-windows.exe and cmake-3.26.4-windows-x86_64.msi and set the file location in 2 folders opencv and CMake at D:\Libraries
+
+Step 2: Edit the system environment variables > Environment Variables.. > Go to PATH > Add: 
+- D:\Libraries\CMake\bin
+- D:\Libraries\opencv\build\x64\vc16\bin
+- D:\Libraries\opencv\build\x64\vc16\lib
+
+Step 3: In Visual Studio Code, create a new folder "C:\Users\<your_name>\Documents\opencvtest". You should download 4 extensions in VS Code:
+- C/C++ by Microsoft
+- C/C++ Compile Run by danielpinto8zz6
+- CMake by twxs
+- CMake Tools by Microsoft
+
+Step 4: Hit the project and Shift + Ctrl + P to open our Command Palette. Click "> CMake: Configure" then click "VSC 2022 Release - x86_amd64"
+
+Step 5: Create CMakeLists.txt in "C:\Users\<your_name>\Documents\opencvtest" and write:
+cmake_minimum_required(VERSION 3.0.0)
+project(opencvtest VERSION 0.1.0)
+include(CTest)
+enable_testing()
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+add_executable(opencvtest main.cpp)
+target_link_libraries(opencvtest ${OpenCV_LIBS})
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+
+Step 6: There is the "Configure (JSON)". You should accept it and c_cpp_properties.json in .vscode folder must be in opencvtest folder.
+
+Step 7: Create picture pexels.jpg and main.cpp in "C:\Users\<your_name>\Documents\opencvtest". And write these code to test. And then Build and Run.
+
+#include <stdio.h>
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
+
+int main(int argc, char** argv)
+{
+    Mat image;
+    image = imread("C:/Users/hoang/Documents/opencvtest/pexels.jpg");
+    if(!image.data)
+    {
+        printf("No image data \n");
+        return -1;
+    }
+    namedWindow("Display Image", WINDOW_AUTOSIZE);
+    imshow("Display Image", image);
+    waitKey(0);
+    return 0; 
+}
